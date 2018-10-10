@@ -19,6 +19,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
@@ -42,13 +43,20 @@ func MustGetenv(name string) string {
 
 func main() {
 	token := MustGetenv("DBX_TOKEN")
-	//name := MustGetenv("NAME")
+
+	name := ""
+	if len(os.Args) >= 2 {
+		name = os.Args[1]
+	} else {
+		logrus.Fatalf("Missing name arg")
+		return
+	}
 
 	config := dropbox.Config{
 		Token: token,
 	}
 	dbx := files.New(config)
-	path := "" //fmt.Sprintf("/%s", name)
+	path := fmt.Sprintf("/%s", name)
 	res, err := dbx.ListFolder(files.NewListFolderArg(path))
 	fu(err)
 
