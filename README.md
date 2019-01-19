@@ -120,6 +120,22 @@ The video will be written as `[ The name ].mp4`.
 
 I remember some gotchas there, but I can't recall them, please post issues, or directly at [r/SuperGreenLab](https://www.reddit.com/r/SuperGreenLab).
 
+# View live over http
+
+First thing is to get a hosting solution.
+
+Then [install docker](https://docs.docker.com/install/).
+
+Then, run this command as root on your server:
+
+```sh
+
+docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here ]' --restart=always supergreenlab/supergreenlive
+
+```
+
+And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose ]` will show the latest pic.
+
 # One more thing:
 
 This one's really live (in my office right now):
