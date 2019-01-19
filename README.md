@@ -16,6 +16,8 @@ Table of Contents
          * [Watermark](#watermark)
       * [Manage timelapses](#manage-timelapses)
       * [Create timelapse](#create-timelapse)
+   * [View live over http](#view-live-over-http)
+   * [One more thing:](#one-more-thing)
 
 # SuperGreenTimelapse
 
