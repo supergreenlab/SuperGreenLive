@@ -73,6 +73,13 @@ Now scroll to the `Generated access token` section, and click the `Generate` but
 
 First follow the [raspberryPI quickstart guide](https://www.raspberrypi.org/learning/software-guide/quickstart/) if you have never done that before.
 
+Always good to upgrade after a fresh install:
+```sh
+
+sudo apt-get update && sudo apt-get upgrade -y
+
+```
+
 Install or upgrade to the latest binary with the following command:
 
 ```sh
