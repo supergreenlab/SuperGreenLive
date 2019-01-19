@@ -89,9 +89,9 @@ func uploadPic(name, local, remote string) {
 	logrus.Infof("Uploaded %s", p)
 }
 
-func resizeLatest(cam string) (string, error) {
+func resizeLatest(cam, size string) (string, error) {
 	name := "latest.jpg"
-	cmd := exec.Command("/usr/bin/convert", cam, "-scale", "50%", name)
+	cmd := exec.Command("/usr/bin/convert", cam, "-scale", size, name)
 	err := cmd.Run()
 	return name, err
 }
@@ -123,6 +123,6 @@ func main() {
 	uploadPic(name, local, remote)
 
 	logrus.Info("Resizing latest")
-	latest, err := resizeLatest(local)
+	latest, err := resizeLatest(local, "33%")
 	uploadPic(name, latest, "latest.jpg")
 }
