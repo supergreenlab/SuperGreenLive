@@ -19,6 +19,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"net/http"
@@ -33,7 +34,13 @@ import (
 var dbx files.Client
 
 func init() {
-	token := MustGetenv("DBX_TOKEN")
+	token := os.Getenv("DBX_TOKEN")
+	if token == "" {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("Enter dropbox token: ")
+		token, _ = reader.ReadString('\n')
+		token = token[:len(token)-1]
+	}
 	config := dropbox.Config{
 		Token: token,
 	}
@@ -93,5 +100,9 @@ func main() {
 			go r.RunTLS(":443", certFile, keyFile)
 		}
 	}
-	r.Run(":80")
+	if len(os.Args) == 2 {
+		r.Run(fmt.Sprintf(":%s", os.Args[1]))
+	} else {
+		r.Run(":8080")
+	}
 }

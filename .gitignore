@@ -1,2 +1,8 @@
 certs
 .DS_Store
+
+latest
+latest.exe
+latest-linux
+latest-darwin
+latest-android

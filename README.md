@@ -73,6 +73,7 @@ Install or upgrade to the latest binary with the following command:
 ```sh
 
 sudo curl https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/PreRelease/timelapse -o /usr/local/bin/timelapse
+sudo curl https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/PreRelease/watermark-logo.png -o /home/pi/watermark-logo.png
 sudo chmod +x /usr/local/bin/timelapse
 
 ```
@@ -91,7 +92,32 @@ To change the settings later, don't repeat the command, but open the file instea
 
 ### Watermark
 
+The watermark on the picture is located at `/home/pi/watermark-logo.png`, you can change to whatever you want. Keep it to support us :P
+
 ### View latest
+
+You can view the latest pic taken, by downloading the [latest](https://github.com/supergreenlab/SuperGreenTimelapse/releases/tag/PreRelease) binary (pick the right one for your OS.
+This binary is meant to be running on a server, but can still be used locally. It opens a webserver and serves the latest pictures of the given timelapse.
+
+#### Locally
+
+Just run the executable by double clicking it.
+
+Then use your browser to go to `http://localhost:8080/[ Insert the name you chose ]`.
+
+#### Online
+
+First thing is to get a hosting solution.
+
+Then [install docker]().
+
+Then, run this command as root on your server:
+
+```sh
+
+docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here ]' --restart=always supergreenlab/SuperGreenTimelapse
+
+```
 
 ## Manage timelapses
 
