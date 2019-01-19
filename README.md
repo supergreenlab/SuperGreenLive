@@ -15,12 +15,7 @@ Table of Contents
          * [RaspberryPI setup](#raspberrypi-setup)
          * [Watermark](#watermark)
          * [View latest](#view-latest)
-            * [Locally](#locally)
-            * [Online](#online)
       * [Manage timelapses](#manage-timelapses)
-         * [List](#list)
-         * [Download](#download)
-         * [Delete](#delete)
       * [Create timelapse](#create-timelapse)
 
 # SuperGreenTimelapse
@@ -33,9 +28,8 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 
 - Live(-ish) secured webcam
 - Take a picture every X minutes
-- Upload to dropbox hidden directory
+- Upload to dropbox app folder
 - Produce a timelapse video with extra image interpolation for better smoothness
-- Dropbox hidden folder management
 
 ## TODO
 
@@ -90,7 +84,7 @@ sudo chmod +x /usr/local/bin/timelapse
 
 ```
 
-Now setup the `cron` jog that will call our timelapse every 10 minutes:
+Now setup the [cron](https://en.wikipedia.org/wiki/Cron) job that will call our timelapse every 10 minutes:
 
 ```sh
 
@@ -106,53 +100,14 @@ To change the settings later, don't repeat the command, but open the file instea
 
 The watermark on the picture is located at `/home/pi/watermark-logo.png`, you can change to whatever you want. Keep it to support us :P
 
-### View latest
-
-You can view the latest pic taken, by downloading the [latest](https://github.com/supergreenlab/SuperGreenTimelapse/releases/tag/PreRelease) binary (pick the right one for your OS.
-This binary is meant to be running on a server, but can still be used locally. It opens a webserver and serves the latest pictures of the given timelapse.
-
-#### Locally
-
-Just run the executable by double clicking it, it'll prompt for the drobox token on startup.
-
-Then use your browser to go to `http://localhost:8080/[ Insert the name you chose ]`.
-
-#### Online
-
-First thing is to get a hosting solution.
-
-Then [install docker](https://docs.docker.com/install/).
-
-Then, run this command as root on your server:
-
-```sh
-
-docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here ]' --restart=always supergreenlab/supergreenlive
-
-```
-
-And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose ]` will show the latest pic.
-
 ## Manage timelapses
 
-All pictures are stored in a hidden directory, Dropbox does not allow to browse these directories directly, you need the token and some code.
-The following commands will give the basic abilities to list/download/delete.
-
-### List
-
-WIP (put everything in one executable)
-
-### Download
-
-WIP (put everything in one executable)
-
-### Delete
-
-WIP (put everything in one executable)
+All timelapses are stored on your dropbox's root in the `Apps/` directory.
+The latest picture taken is named `latest.jpg`.
 
 ## Create timelapse
 
-Creating the timelapse requires to [download the timelapse](#download), then start the `create_timelapse.sh` script.
+Creating the timelapse requires to, then start the `create_timelapse.sh` script.
 
 ```sh
 
