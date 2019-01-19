@@ -124,5 +124,4 @@ I remember some gotchas there, but I can't recall them, please post issues, or d
 
 This one's really live (in my office right now):
 
-https://timelapse.chronic-o-matic.com/SuperGreenOffice
 ![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice "Live")
