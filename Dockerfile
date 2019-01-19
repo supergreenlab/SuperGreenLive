@@ -1,8 +1,8 @@
 FROM scratch
 
 ADD ca-certificates.crt /etc/ssl/certs/
-ADD latest-linux /latest
+ADD live /latest
 
 EXPOSE 80
 
-ENTRYPOINT ["/latest", "80"]
+ENTRYPOINT ["/live", "80"]

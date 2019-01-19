@@ -16,7 +16,5 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o latest-linux latest.go
-CGO_ENABLED=0 GOOS=windows go build -a -installsuffix cgo -o latest latest.go
-CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o latest-osx latest.go
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o live live.go
 docker build -t supergreenlab/supergreenlive .
