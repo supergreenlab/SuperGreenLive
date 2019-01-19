@@ -56,7 +56,7 @@ It also allows to view the latest pic online, which actually makes it some sort 
 
 There's a little setup to do on dropbox's side. For obvious security purpose you have to let dropbox know that he needs to create a space and access for our program.
 
-Got to the [app creation page](https://www.dropbox.com/developers/apps/create), and choose: `Dropbox API` -> `App folder` -> `SuperGreenTimelapse` (or whatever on that last one :P).
+Got to the [app creation page](https://www.dropbox.com/developers/apps/create), and choose: `Dropbox API` -> `App folder` -> `SuperGreenTimelapse`.
 
 Now scroll to the `Generated access token` section, and click the `Generate` button below. Copy-paste the long id that looks like `vrB4PlxSQpsAAAAAAAC1SvJJbXi08sdjlkaWWfalk25iX4GAqsfk67rkM0sM0uyC`, we'll need that in the next step.
 
