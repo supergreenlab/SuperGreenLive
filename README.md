@@ -41,6 +41,7 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 
 - Integrate https://github.com/gographics/imagick
 - Clean up everything it's a mess
+- put everything in one executable
 - SSL ?
 
 # Hardware requirements
@@ -132,9 +133,15 @@ The following commands will give the basic abilities to list/download/delete.
 
 ### List
 
+WIP (put everything in one executable)
+
 ### Download
 
+WIP (put everything in one executable)
+
 ### Delete
+
+WIP (put everything in one executable)
 
 ## Create timelapse
 
