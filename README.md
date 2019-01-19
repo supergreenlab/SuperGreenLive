@@ -14,7 +14,6 @@ Table of Contents
          * [Dropbox setup](#dropbox-setup)
          * [RaspberryPI setup](#raspberrypi-setup)
          * [Watermark](#watermark)
-         * [View latest](#view-latest)
       * [Manage timelapses](#manage-timelapses)
       * [Create timelapse](#create-timelapse)
 
@@ -34,8 +33,6 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 ## TODO
 
 - Integrate https://github.com/gographics/imagick
-- Clean up everything it's a mess
-- put everything in one executable
 - SSL ?
 
 # Hardware requirements
@@ -107,11 +104,13 @@ The latest picture taken is named `latest.jpg`.
 
 ## Create timelapse
 
-Creating the timelapse requires to, then start the `create_timelapse.sh` script.
+Creating the timelapse requires go to the `Apps/` directory in your Dropbox folder, then start the [create_timelapse.sh](https://raw.githubusercontent.com/supergreenlab/SuperGreenTimelapse/master/create_timelapse.sh) script.
 
 ```sh
 
-./create_timelapse.sh [ The name you chose ]
+curl -O https://raw.githubusercontent.com/supergreenlab/SuperGreenTimelapse/master/create_timelapse.sh
+chmod +x create_timelapse.sh
+./create_timelapse.sh [ The name of one of the timelapses ]
 
 ```
 
