@@ -15,6 +15,8 @@ Table of Contents
          * [RaspberryPI setup](#raspberrypi-setup)
          * [Watermark](#watermark)
          * [View latest](#view-latest)
+            * [Locally](#locally)
+            * [Online](#online)
       * [Manage timelapses](#manage-timelapses)
          * [List](#list)
          * [Download](#download)
@@ -38,6 +40,8 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 ## TODO
 
 - Integrate https://github.com/gographics/imagick
+- Clean up everything it's a mess
+- SSL ?
 
 # Hardware requirements
 
@@ -101,7 +105,7 @@ This binary is meant to be running on a server, but can still be used locally. I
 
 #### Locally
 
-Just run the executable by double clicking it.
+Just run the executable by double clicking it, it'll prompt for the drobox token on startup.
 
 Then use your browser to go to `http://localhost:8080/[ Insert the name you chose ]`.
 
@@ -109,17 +113,22 @@ Then use your browser to go to `http://localhost:8080/[ Insert the name you chos
 
 First thing is to get a hosting solution.
 
-Then [install docker]().
+Then [install docker](https://docs.docker.com/install/).
 
 Then, run this command as root on your server:
 
 ```sh
 
-docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here ]' --restart=always supergreenlab/SuperGreenTimelapse
+docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here ]' --restart=always supergreenlab/supergreenlive
 
 ```
 
+And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose ]` will show the latest pic.
+
 ## Manage timelapses
+
+All pictures are stored in a hidden directory, Dropbox does not allow to browse these directories directly, you need the token and some code.
+The following commands will give the basic abilities to list/download/delete.
 
 ### List
 
@@ -129,3 +138,16 @@ docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here
 
 ## Create timelapse
 
+Creating the timelapse requires to [download the timelapse](#download), then start the `create_timelapse.sh` script.
+
+```sh
+
+./create_timelapse.sh [ The name you chose ]
+
+```
+
+This will take a while to process. What it does is take each pics, create 4 versions to interpolate with `composite` then creates a video with all pics with `ffmpeg`.
+
+The video will be written as `[ The name ].mp4`.
+
+I remember some gotchas there, but I can't recall them, please post issues, or directly at [r/SuperGreenLab](https://www.reddit.com/r/SuperGreenLab).
