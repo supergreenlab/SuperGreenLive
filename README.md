@@ -119,3 +119,10 @@ This will take a while to process. What it does is take each pics, create 4 vers
 The video will be written as `[ The name ].mp4`.
 
 I remember some gotchas there, but I can't recall them, please post issues, or directly at [r/SuperGreenLab](https://www.reddit.com/r/SuperGreenLab).
+
+# One more thing:
+
+This one's really live (in my office right now):
+
+https://timelapse.chronic-o-matic.com/SuperGreenOffice
+![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice "Live")
