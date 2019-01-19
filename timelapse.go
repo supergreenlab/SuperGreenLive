@@ -55,8 +55,23 @@ func MustGetenv(name string) string {
 }
 
 func takePic() (string, error) {
-	name := "latest.jpg"
+	name := "cam.jpg"
 	cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
+	err := cmd.Run()
+	return name, err
+}
+
+func makeTextLayer(text string) (string, error) {
+	label := fmt.Sprintf("label:%s", text)
+	name := "layer.png"
+	cmd := exec.Command("/usr/bin/convert", "-background", "transparent", "-fill", "green", "-font", "Helvetica-Narrow", "-pointsize", "80", "-stroke", "white", "-strokewidth", "2", label, name)
+	err := cmd.Run()
+	return name, err
+}
+
+func composeLayers(cam, layer, gravity string) (string, error) {
+	name := "latest.jpg"
+	cmd := exec.Command("/usr/bin/convert", cam, layer, "-gravity", gravity, "-geometry", "+20+20", "-composite", name)
 	err := cmd.Run()
 	return name, err
 }
@@ -77,11 +92,28 @@ func uploadPic(name, local, remote string) {
 func main() {
 	name := MustGetenv("NAME")
 
-	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
-	local, err := takePic()
+	logrus.Info("Taking picture..")
+	cam, err := takePic()
+	fu(err)
+
+	logrus.Info("Adding watermark..")
+	t := time.Now()
+	d := t.Format("2006/01/02 15:04")
+	date, err := makeTextLayer(d)
+	fu(err)
+	local, err := composeLayers(cam, date, "southeast")
+	fu(err)
+
+	namel, err := makeTextLayer(name)
+	fu(err)
+	local, err = composeLayers(local, namel, "northwest")
+	fu(err)
+
+	local, err = composeLayers(local, "watermark-logo.png", "southwest")
 	fu(err)
 
 	logrus.Info("Uploading files")
+	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
 	uploadPic(name, local, remote)
 	uploadPic(name, local, "latest.jpg")
 }
