@@ -38,7 +38,7 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 # Hardware requirements
 
 - [RaspberryPI](https://www.raspberrypi.org/products/) + [Wifi (optional, most rpi have integrated wifi now)](https://www.raspberrypi.org/products/raspberry-pi-usb-wifi-dongle/)
-- [Camera](https://www.raspberrypi.org/products/camera-module-v2/)
+- [Camera](https://www.raspberrypi.org/products/camera-module-v2/), I got [those](https://www.amazon.com/SainSmart-Fish-Eye-Camera-Raspberry-Arduino/dp/B00N1YJKFS) for the wide angle lens, but that's only for small spaces (this is the one used for the pic above).
 - [Power supply](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/)
 
 # Quickstart
