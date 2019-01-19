@@ -142,4 +142,4 @@ And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose
 
 This one's really live (in my office right now):
 
-![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice#2 "Live")
+![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice#3 "Live")
