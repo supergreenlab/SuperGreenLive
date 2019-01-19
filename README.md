@@ -99,12 +99,12 @@ The watermark on the picture is located at `/home/pi/watermark-logo.png`, you ca
 
 ## Manage timelapses
 
-All timelapses are stored on your dropbox's root in the `Apps/` directory.
+All timelapses are stored on your dropbox's root in the `Apps/SuperGreenTimelapse/` directory.
 The latest picture taken is named `latest.jpg`.
 
 ## Create timelapse
 
-Creating the timelapse requires go to the `Apps/` directory in your Dropbox folder, then start the [create_timelapse.sh](https://raw.githubusercontent.com/supergreenlab/SuperGreenTimelapse/master/create_timelapse.sh) script.
+Creating the timelapse requires go to the `Apps/SuperGreenTimelapse/` directory in your Dropbox folder, then start the [create_timelapse.sh](https://raw.githubusercontent.com/supergreenlab/SuperGreenTimelapse/master/create_timelapse.sh) script.
 
 ```sh
 
