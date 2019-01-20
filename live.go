@@ -24,11 +24,11 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -85,7 +85,7 @@ func serve(c *gin.Context) {
 
 	c.Header("Content-Type", "image/jpeg")
 	c.Header("Cache-Control", "no-cache")
-	c.Header("ETag", uuid.New().String())
+	c.Header("ETag", fmt.Sprintf("%d", int64(time.Now().Unix())/(60*10)))
 	c.Status(http.StatusOK)
 	io.Copy(c.Writer, content)
 }
