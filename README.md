@@ -78,7 +78,7 @@ Install or upgrade to the latest binary with the following command:
 ```sh
 
 sudo curl https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/PreRelease/timelapse -o /usr/local/bin/timelapse
-sudo curl https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/PreRelease/watermark-logo.png -o /home/pi/watermark-logo.png
+sudo curl https://raw.githubusercontent.com/supergreenlab/SuperGreenTimelapse/master/watermark-logo.png -o /home/pi/watermark-logo.png
 sudo chmod +x /usr/local/bin/timelapse
 
 ```
