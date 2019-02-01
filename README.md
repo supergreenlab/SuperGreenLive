@@ -147,7 +147,7 @@ My bloom box:
 
 10 days timelapse:
 
-![10 Days timelapse](https://i.imgur.com/02lxtEi.gif)
+[![10 Days timelapse](https://i.imgur.com/4vu5NNU.gif)](https://i.imgur.com/02lxtEi.mp4)
 
 And the veg box:
 ![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenOfficeVeg#3 "LiveVeg")
