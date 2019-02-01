@@ -148,4 +148,4 @@ My bloom box:
 And the veg box:
 ![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenVeg#3 "LiveVeg")
 
-Btw the these 2 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole is controller by one controller :) Ventilations are independantly controllable too.
+Btw the these 2 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole setup is controlled by only one [controller](https://github.com/supergreenlab/SuperGreenDriver) :) Ventilations are independantly controlled too.
