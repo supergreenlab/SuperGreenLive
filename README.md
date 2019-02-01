@@ -140,6 +140,12 @@ And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose
 
 # One more thing:
 
-This one's really live (in my office right now):
+Those are really live (in my office right now):
 
+My bloom box:
 ![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice#3 "Live")
+
+And the veg box:
+![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenVeg#3 "LiveVeg")
+
+Btw the these 2 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole is controller by one controller :) Ventilations are independantly controllable too.
