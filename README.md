@@ -145,6 +145,10 @@ Those are really live (in my office right now):
 My bloom box:
 ![Live](https://timelapse.chronic-o-matic.com/SuperGreenOffice#3 "Live")
 
+10 days timelapse:
+
+![10 Days timelapse](https://i.imgur.com/02lxtEi.gif)
+
 And the veg box:
 ![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenOfficeVeg#3 "LiveVeg")
 
