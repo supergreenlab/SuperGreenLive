@@ -147,7 +147,8 @@ My bloom box:
 
 [10 days timelapse](https://youtu.be/GGo-XaIuKoU)
 
-And the veg box:
+And the veg boxes (there's two stacked on top of each other):
 ![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenOfficeVeg#3 "LiveVeg")
+![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenOfficeVeg2#3 "LiveVeg2")
 
-Btw the these 2 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole setup is controlled by only one [controller](https://github.com/supergreenlab/SuperGreenDriver) :) Ventilations are independantly controlled too.
+Btw the these 3 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole setup is controlled by only one [controller](https://github.com/supergreenlab/SuperGreenDriver) :) Ventilations are independantly controlled too.
