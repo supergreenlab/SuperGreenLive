@@ -15,15 +15,15 @@ pushd $WORK_DIR
 j=0
 for f in ../*.jpg
 do
-	for i in {0..4}
+	for i in {0..2}
 	do
 		let "j+=1"
-		composite -blend $((i*25)) $f previous.jpg -matte blend_$j.jpg
+		composite -blend $((i*50)) $f previous.jpg -matte blend_$j.jpg
 	done
 	cp $f previous.jpg
 done
 
 popd
 
-ffmpeg -r "60" -i $WORK_DIR/blend_%d.jpg -qscale 6 $1.mp4
+ffmpeg -r "24" -i $WORK_DIR/blend_%d.jpg -qscale 6 $1.mp4
 rm -rf $WORK_DIR

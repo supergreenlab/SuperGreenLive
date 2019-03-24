@@ -1,7 +1,26 @@
+/*
+ * Copyright (C) 2019  SuperGreenLab <towelie@supergreenlab.com>
+ * Author: Constantin Clauzel <constantin.clauzel@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"math"
 	"net/http"
@@ -9,6 +28,22 @@ import (
 
 	"gopkg.in/gographics/imagick.v2/imagick"
 )
+
+var (
+	boxname         string
+	strain          string
+	graphcontroller string
+	graphbox        int
+)
+
+func init() {
+	flag.StringVar(&boxname, "n", "SuperGreenKit", "Name for the box")
+	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
+	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
+	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
+
+	flag.Parse()
+}
 
 func addText(mw *imagick.MagickWand, text, color string, size, stroke, x, y float64) {
 	pw := imagick.NewPixelWand()

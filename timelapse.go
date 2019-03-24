@@ -56,7 +56,7 @@ func MustGetenv(name string) string {
 
 func takePic() (string, error) {
 	name := "cam.jpg"
-	cmd := exec.Command("/usr/bin/raspistill", "-rot", "180", "-vf", "-hf", "-q", "50", "-o", name)
+	cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
 	err := cmd.Run()
 	return name, err
 }
