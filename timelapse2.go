@@ -25,24 +25,61 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"os/exec"
+	"time"
 
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/gographics/imagick.v2/imagick"
 )
+
+var dbx files.Client
 
 var (
 	boxname         string
 	strain          string
 	graphcontroller string
 	graphbox        int
+	uploadpath      string
 )
 
 func init() {
+	flag.StringVar(&uploadpath, "u", "/test/test.jpg", "Graph's controller id")
 	flag.StringVar(&boxname, "n", "SuperGreenKit", "Name for the box")
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
 	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
 
 	flag.Parse()
+
+	token := MustGetenv("DBX_TOKEN")
+	config := dropbox.Config{
+		Token: token,
+	}
+
+	dbx = files.New(config)
+}
+
+func fu(e error) {
+	if e != nil {
+		logrus.Fatal(e)
+	}
+}
+
+func MustGetenv(name string) string {
+	v := os.Getenv(name)
+	if v == "" {
+		logrus.Fatalf("missing env %s", name)
+	}
+	return v
+}
+
+func takePic() (string, error) {
+	name := "cam.jpg"
+	cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
+	err := cmd.Run()
+	return name, err
 }
 
 func addText(mw *imagick.MagickWand, text, color string, size, stroke, x, y float64) {
@@ -200,6 +237,26 @@ func addGraph(mw *imagick.MagickWand, x, y, width, height, min, max float64, mv 
 	mw.DrawImage(dw)
 }
 
+func uploadPic(name, local, remote string) {
+	f, err := os.Open(local)
+	fu(err)
+
+	p := fmt.Sprintf("/%s/%s", name, remote)
+	ci := files.NewCommitInfo(p)
+	ci.Mode.Tag = "overwrite"
+	_, err = dbx.Upload(ci, f)
+	fu(err)
+
+	logrus.Infof("Uploaded %s", p)
+}
+
+func resizeLatest(cam, size string) (string, error) {
+	name := "latest.jpg"
+	cmd := exec.Command("/usr/bin/mogrify", cam, "-quality", size, name)
+	err := cmd.Run()
+	return name, err
+}
+
 func main() {
 	imagick.Initialize()
 	defer imagick.Terminate()
@@ -207,26 +264,35 @@ func main() {
 	mw := imagick.NewMagickWand()
 	defer mw.Destroy()
 
-	mw.ReadImage("cam.jpg")
+	logrus.Info("Taking picture..")
+	cam, err := takePic()
+	fu(err)
 
-	addText(mw, "OFFICE - bloom", "#3BB30B", 150, 5, 25, 200)
-	addText(mw, "Platinum Huckleberry Cookies", "#FF4B4B", 80, 3, 25, 300)
+	mw.ReadImage(cam)
 
-	m := loadGraphValue("SuperGreenLamp", 0)
+	addText(mw, boxname, "#3BB30B", 150, 5, 25, 200)
+	addText(mw, strain, "#FF4B4B", 80, 3, 25, 300)
+
+	m := loadGraphValue(graphcontroller, graphbox)
 	addGraph(mw, 10, 550, 350, 200, 16, 40, m.Temp, "#3BB30B")
 	addGraph(mw, 375, 550, 400, 200, 20, 80, m.Humi, "#0B81B3")
 
 	addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, 75, 440)
 	addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, 400, 440)
 
-	addText(mw, "2019/03/24 07:20", "#3BB30B", 120, 6, float64(mw.GetImageWidth()-1200), float64(mw.GetImageHeight()-80))
+	t := time.Now()
+	d := t.Format("2006/01/02 15:04")
+	addText(mw, d, "#3BB30B", 120, 6, float64(mw.GetImageWidth()-1200), float64(mw.GetImageHeight()-80))
 
 	addPic(mw, "watermark-logo.png", 25, float64(mw.GetImageHeight()-260))
 
-	mw.WriteImage("result.jpg")
+	mw.WriteImage("post.jpg")
 
-	err := mw.DisplayImage(os.Getenv("DISPLAY"))
-	if err != nil {
-		panic(err)
-	}
+	logrus.Info("Uploading files")
+	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
+	uploadPic(uploadpath, "post.jpg", remote)
+
+	logrus.Info("Resizing latest")
+	latest, err := resizeLatest("post.jpg", "50%")
+	uploadPic(uploadpath, latest, "latest.jpg")
 }
