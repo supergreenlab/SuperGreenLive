@@ -273,12 +273,14 @@ func main() {
 	addText(mw, boxname, "#3BB30B", 150, 5, 25, 200)
 	addText(mw, strain, "#FF4B4B", 80, 3, 25, 300)
 
-	m := loadGraphValue(graphcontroller, graphbox)
-	addGraph(mw, 10, 550, 350, 200, 16, 40, m.Temp, "#3BB30B")
-	addGraph(mw, 375, 550, 400, 200, 20, 80, m.Humi, "#0B81B3")
+	if graphcontroller != "" {
+		m := loadGraphValue(graphcontroller, graphbox)
+		addGraph(mw, 10, 550, 350, 200, 16, 40, m.Temp, "#3BB30B")
+		addGraph(mw, 375, 550, 400, 200, 20, 80, m.Humi, "#0B81B3")
 
-	addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, 75, 440)
-	addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, 400, 440)
+		addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, 75, 440)
+		addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, 400, 440)
+	}
 
 	t := time.Now()
 	d := t.Format("2006/01/02 15:04")
