@@ -43,6 +43,7 @@ var (
 	graphcontroller string
 	graphbox        int
 	uploadpath      string
+	rotate          bool
 )
 
 func init() {
@@ -50,6 +51,7 @@ func init() {
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
 	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
+	flag.BoolVar(&rotate, "r", false, "")
 
 	flag.Parse()
 
@@ -77,7 +79,12 @@ func MustGetenv(name string) string {
 
 func takePic() (string, error) {
 	name := "cam.jpg"
-	cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
+	if rotate {
+		cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
+		err := cmd.Run()
+		return name, err
+	}
+	cmd := exec.Command("/usr/bin/raspistill", "-q", "50", "-o", name)
 	err := cmd.Run()
 	return name, err
 }
@@ -267,8 +274,9 @@ func main() {
 	defer mw.Destroy()
 
 	logrus.Info("Taking picture..")
-	cam, err := takePic()
-	fu(err)
+	//cam, err := takePic()
+	//fu(err)
+	cam := "cam.jpg"
 
 	logrus.Info("Uploading raw files")
 	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
