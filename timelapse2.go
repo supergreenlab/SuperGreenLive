@@ -274,9 +274,8 @@ func main() {
 	defer mw.Destroy()
 
 	logrus.Info("Taking picture..")
-	//cam, err := takePic()
-	//fu(err)
-	cam := "cam.jpg"
+	cam, err := takePic()
+	fu(err)
 
 	logrus.Info("Uploading raw files")
 	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
