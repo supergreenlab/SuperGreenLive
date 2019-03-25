@@ -22,6 +22,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"math"
 	"net/http"
 	"os"
@@ -274,31 +275,37 @@ func main() {
 
 	logrus.Info("Taking picture..")
 	cam, err := takePic()
-	fu(err)
+	if err != nil {
+		log.Println(err)
+	}
 
-	logrus.Info("Uploading raw files")
+	logrus.Info("Uploading raw file")
 	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
 	uploadPic(uploadname+"_raw", cam, remote)
 
 	mw.ReadImage(cam)
 
-	addText(mw, boxname, "#3BB30B", 150, 5, 25, 200)
-	addText(mw, strain, "#FF4B4B", 80, 3, 25, 300)
+	addText(mw, boxname, "#3BB30B", 120, 5, 25, 120)
+	addText(mw, strain, "#FF4B4B", 80, 3, 25, 220)
 
 	if graphcontroller != "" {
 		m := loadGraphValue(graphcontroller, graphbox)
-		addGraph(mw, 10, 550, 350, 200, 16, 40, m.Temp, "#3BB30B")
-		addGraph(mw, 375, 550, 400, 200, 20, 80, m.Humi, "#0B81B3")
+		var (
+			x = float64(25)
+			y = float64(mw.GetImageHeight() - 25)
+		)
+		addGraph(mw, x, y, 350, 200, 16, 40, m.Temp, "#3BB30B")
+		addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, x+65, y-110)
 
-		addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, 75, 440)
-		addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, 400, 440)
+		addGraph(mw, x+365, y, 400, 200, 20, 80, m.Humi, "#0B81B3")
+		addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, x+390, y-110)
 	}
 
 	t := time.Now()
 	d := t.Format("2006/01/02 15:04")
-	addText(mw, d, "#3BB30B", 120, 6, float64(mw.GetImageWidth()-1200), float64(mw.GetImageHeight()-80))
+	addText(mw, d, "#3BB30B", 90, 4, float64(mw.GetImageWidth()-900), float64(mw.GetImageHeight()-60))
 
-	addPic(mw, "watermark-logo.png", 25, float64(mw.GetImageHeight()-260))
+	addPic(mw, "watermark-logo.png", float64(mw.GetImageWidth()-330), 10)
 
 	mw.WriteImage("latest.jpg")
 
