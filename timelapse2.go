@@ -22,6 +22,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"math"
 	"net/http"
 	"os"
@@ -45,7 +46,6 @@ var (
 )
 
 func init() {
-	flag.StringVar(&uploadpath, "u", "/test/test.jpg", "Graph's controller id")
 	flag.StringVar(&boxname, "n", "SuperGreenKit", "Name for the box")
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
@@ -238,10 +238,12 @@ func addGraph(mw *imagick.MagickWand, x, y, width, height, min, max float64, mv 
 }
 
 func uploadPic(name, local, remote string) {
+	log.Println(name, local, remote)
 	f, err := os.Open(local)
 	fu(err)
 
 	p := fmt.Sprintf("/%s/%s", name, remote)
+	log.Println(p)
 	ci := files.NewCommitInfo(p)
 	ci.Mode.Tag = "overwrite"
 	_, err = dbx.Upload(ci, f)
@@ -268,6 +270,10 @@ func main() {
 	cam, err := takePic()
 	fu(err)
 
+	logrus.Info("Uploading raw files")
+	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
+	uploadPic(boxname+"_raw", cam, remote)
+
 	mw.ReadImage(cam)
 
 	addText(mw, boxname, "#3BB30B", 150, 5, 25, 200)
@@ -288,13 +294,12 @@ func main() {
 
 	addPic(mw, "watermark-logo.png", 25, float64(mw.GetImageHeight()-260))
 
-	mw.WriteImage("post.jpg")
+	mw.WriteImage("latest.jpg")
 
 	logrus.Info("Uploading files")
-	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
-	uploadPic(uploadpath, "post.jpg", remote)
+	uploadPic(boxname, "latest.jpg", remote)
 
 	logrus.Info("Resizing latest")
-	latest, err := resizeLatest("post.jpg", "50%")
-	uploadPic(uploadpath, latest, "latest.jpg")
+	latest, _ := resizeLatest("latest.jpg", "50%")
+	uploadPic(boxname, latest, "latest.jpg")
 }
