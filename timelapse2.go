@@ -22,7 +22,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"log"
 	"math"
 	"net/http"
 	"os"
@@ -245,12 +244,10 @@ func addGraph(mw *imagick.MagickWand, x, y, width, height, min, max float64, mv 
 }
 
 func uploadPic(name, local, remote string) {
-	log.Println(name, local, remote)
 	f, err := os.Open(local)
 	fu(err)
 
 	p := fmt.Sprintf("/%s/%s", name, remote)
-	log.Println(p)
 	ci := files.NewCommitInfo(p)
 	ci.Mode.Tag = "overwrite"
 	_, err = dbx.Upload(ci, f)
