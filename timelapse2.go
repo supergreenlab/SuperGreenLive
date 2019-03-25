@@ -37,6 +37,7 @@ import (
 var dbx files.Client
 
 var (
+	uploadname      string
 	boxname         string
 	strain          string
 	graphcontroller string
@@ -46,7 +47,8 @@ var (
 )
 
 func init() {
-	flag.StringVar(&boxname, "n", "SuperGreenKit", "Name for the box")
+	flag.StringVar(&uploadname, "u", "SuperGreenKit", "Name for the box (used to upload)")
+	flag.StringVar(&boxname, "n", "SuperGreenKit - bloom", "Name for the box (written on top of pic)")
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
 	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
@@ -276,7 +278,7 @@ func main() {
 
 	logrus.Info("Uploading raw files")
 	remote := fmt.Sprintf("%d.jpg", int32(time.Now().Unix()))
-	uploadPic(boxname+"_raw", cam, remote)
+	uploadPic(uploadname+"_raw", cam, remote)
 
 	mw.ReadImage(cam)
 
@@ -301,9 +303,9 @@ func main() {
 	mw.WriteImage("latest.jpg")
 
 	logrus.Info("Uploading files")
-	uploadPic(boxname, "latest.jpg", remote)
+	uploadPic(uploadname, "latest.jpg", remote)
 
 	logrus.Info("Resizing latest")
 	latest, _ := resizeLatest("latest.jpg", "50%")
-	uploadPic(boxname, latest, "latest.jpg")
+	uploadPic(uploadname, latest, "latest.jpg")
 }
