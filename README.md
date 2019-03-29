@@ -24,10 +24,9 @@ Table of Contents
 
 # SuperGreenTimelapse
 
-A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi.
+Build a remote camera with a raspberryPI and webcam, and always have an eye on your growth.
 
-Final product:
-
+Example:
 [![Example](assets/screenshot-live.png?raw=true "Example")](https://live.supergreenlab.com/)
 
 See live action: [https://live.supergreenlab.com/](https://live.supergreenlab.com/) (auto updates every 10 minutes)
