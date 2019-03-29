@@ -69,6 +69,8 @@ The most straight forward way to setup everything up is by using our [custom ras
 
 We'd recommend using something like [Etcher](https://www.balena.io/etcher/) for that.
 
+[This tutorial](https://www.raspberrypi.org/documentation/installation/installing-images/) might help if you've never done that.
+
 Then you'll first want to put the sd card in your real computer (ie not the raspberrypi), and mount it like any usb key.
 
 The directory you'll see contains a bunch of files of great interests:
