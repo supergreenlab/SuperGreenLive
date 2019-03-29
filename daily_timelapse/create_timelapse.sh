@@ -5,10 +5,10 @@ if [ "$#" -ne 1 ]; then
   exit
 fi
 
-WORK_DIR="$1/tmp_frames"
-mkdir -p "$WORK_DIR"
+WORK_DIR=$1/tmp_frames
+mkdir $WORK_DIR
 
-cp $(ls $1/*.jpg | head -n1) "$WORK_DIR/previous.jpg"
+cp $(ls $1/*.jpg | head -n1) $WORK_DIR/previous.jpg
 
 pushd $WORK_DIR
 
@@ -25,5 +25,5 @@ done
 
 popd
 
-ffmpeg -r "40" -i "$WORK_DIR/blend_%d.jpg" -qscale 6 $1.mp4
-rm -rf "$WORK_DIR"
+ffmpeg -r "40" -i $WORK_DIR/blend_%d.jpg -qscale 6 $1.mp4
+rm -rf $WORK_DIR

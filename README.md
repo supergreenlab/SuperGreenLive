@@ -62,7 +62,61 @@ Got to the [app creation page](https://www.dropbox.com/developers/apps/create), 
 
 Now scroll to the `Generated access token` section, and click the `Generate` button below. Copy-paste the long id that looks like `vrB4PlxSQpsAAAAAAAC1SvJJbXi08sdjlkaWWfalk25iX4GAqsfk67rkM0sM0uyC`, we'll need that in the next step.
 
-### RaspberryPI setup
+### RaspberryPI easy setup
+
+The most straight forward way to setup everything up is by using our [custom raspbian image](https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/untagged-0052bb53f16d5891322f/image_2019-03-29-SuperGreenLiveOS-full.zip).
+
+We'd recommend using something like [Etcher](https://www.balena.io/etcher/) for that.
+
+Then you'll first want to put the sd card in your real computer (ie not the raspberrypi), and mount it like any usb key.
+
+The directory you'll see contains a bunch of files of great interests:
+
+```
+- wpa_supplicant.conf
+- timelapse_dropbox_token
+- timelapse_uploadname
+- timelapse_name
+- timelapse_strain
+- timelapse_controllerid
+```
+
+#### Wifi configuration
+
+Edit the wpa_supplicant.conf file, you'll have to enter your wifi credentials there.
+
+Copy/paste this (don't forget to replace the values between []):
+
+```
+
+ctrl_interface=/run/wpa_supplicant                                          
+update_config=1                                                                 
+                                                                                            
+network={                                   
+        ssid="[ SSID ]"
+        psk="[ PASSPHRASE ]"
+}
+
+```
+
+#### Dropbox
+
+Edit the `timelapse_dropbox_token` file and put the token, be sure not to have any spaces or empty lines.
+
+Edit the `timelapse_uploadname` and put the name of the folder you want all pictures to be stored in. For example `SpaceTomatoes`.
+
+#### Timelapse on-screen display configuration
+
+The content of `timelapse_name` will be placed at the top left of the pictures.
+`timelapse_strain` right under, some sort of a subtitle.
+
+#### Add temperature/humidity graphics
+
+For now this only works with the [SuperGreenController](https://github.com/supergreenlab/SuperGreenController), let me know if you're interested, I'll put more here:)
+
+### RaspberryPI hand setup
+
+(this is not up-to-date)
 
 First follow the [raspberryPI quickstart guide](https://www.raspberrypi.org/learning/software-guide/quickstart/) if you have never done that before.
 

@@ -19,16 +19,34 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/sirupsen/logrus"
 )
+
+var (
+	uploadname    string
+	min_timestamp int64
+	max_timestamp int64
+	n_pics        int
+)
+
+func init() {
+	flag.StringVar(&uploadname, "u", "SuperGreenKit", "Name of the timelapse")
+	flag.Int64Var(&min_timestamp, "min", -1, "[optional] min timestamp")
+	flag.Int64Var(&max_timestamp, "max", -1, "[optional] max timestamp")
+	flag.IntVar(&n_pics, "n", 0, "[optional] number of pics")
+
+	flag.Parse()
+}
 
 func fu(e error) {
 	if e != nil {
@@ -71,22 +89,15 @@ func download(dbx files.Client, dbxFile string) error {
 
 func main() {
 	token := MustGetenv("DBX_TOKEN")
-	name := ""
-	n_pics := 0
-	if len(os.Args) >= 3 {
-		n_pics, _ = strconv.Atoi(os.Args[2])
-	}
-	if len(os.Args) >= 2 {
-		name = os.Args[1]
-	} else {
-		logrus.Fatal("missing timelapse name arg")
+	if uploadname == "" {
+		logrus.Fatal("missing timelapse uploadname arg")
 	}
 
 	config := dropbox.Config{
 		Token: token,
 	}
 	dbx := files.New(config)
-	path := fmt.Sprintf("/%s", name)
+	path := fmt.Sprintf("/%s", uploadname)
 	args := files.NewListFolderArg(path)
 	res, err := dbx.ListFolder(args)
 	fu(err)
@@ -96,8 +107,14 @@ func main() {
 		for _, m := range res.Entries {
 			switch f := m.(type) {
 			case *files.FileMetadata:
-				if f.Size < 1500000 {
+				if f.Size < 1800000 {
 					continue
+				}
+				if min_timestamp != -1 && max_timestamp != -1 {
+					t, _ := strconv.ParseInt(strings.Split(f.Name, ".")[0], 10, 64)
+					if !(t > min_timestamp && t < max_timestamp) {
+						continue
+					}
 				}
 				fs = append(fs, f)
 			}
@@ -110,6 +127,7 @@ func main() {
 			break
 		}
 	}
+	logrus.Infof("Listed %d files", len(fs))
 
 	if n_pics != 0 {
 		fs = fs[len(fs)-n_pics:]
@@ -132,4 +150,5 @@ func main() {
 			wg.Wait()
 		}
 	}
+	wg.Wait()
 }
