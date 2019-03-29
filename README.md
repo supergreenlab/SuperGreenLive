@@ -1,7 +1,5 @@
 ![SuperGreenLab](assets/sgl.png?raw=true "SuperGreenLab")
 
-[![SuperGreenLab](assets/reddit-button.png?raw=true "SuperGreenLab")](https://www.reddit.com/r/SuperGreenLab)
-
 Table of Contents
 =================
 
@@ -23,7 +21,12 @@ Table of Contents
 
 A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi.
 
-![Example](assets/example.jpg?raw=true "Example")
+Final product:
+
+![Example](assets/screenshot.png?raw=true "Example")
+
+See live action: [https://live.supergreenlab.com/](https://live.supergreenlab.com/) (auto updates every 10 minutes)
+
 
 # Features
 
