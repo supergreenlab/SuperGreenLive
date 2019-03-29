@@ -23,7 +23,7 @@ A bunch of scripts/programs to produce dropbox-backed timelapses for raspberryPi
 
 Final product:
 
-![Example](assets/screenshot.png?raw=true "Example")
+![Example](assets/screenshot-live.png?raw=true "Example")
 
 See live action: [https://live.supergreenlab.com/](https://live.supergreenlab.com/) (auto updates every 10 minutes)
 
