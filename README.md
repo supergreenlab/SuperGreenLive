@@ -5,7 +5,6 @@ Table of Contents
 
    * [SuperGreenTimelapse](#supergreentimelapse)
    * [Features](#features)
-      * [TODO](#todo)
    * [Hardware requirements](#hardware-requirements)
    * [Quickstart](#quickstart)
       * [Installation](#installation)
@@ -39,11 +38,6 @@ See live action: [https://live.supergreenlab.com/](https://live.supergreenlab.co
 - Upload to dropbox app folder
 - Produce a timelapse video with extra image interpolation for better smoothness
 
-## TODO
-
-- Integrate https://github.com/gographics/imagick
-- SSL ?
-
 # Hardware requirements
 
 - [RaspberryPI](https://www.raspberrypi.org/products/) + [Wifi (optional, most rpi have integrated wifi now)](https://www.raspberrypi.org/products/raspberry-pi-usb-wifi-dongle/)
@@ -71,7 +65,7 @@ Now scroll to the `Generated access token` section, and click the `Generate` but
 
 ### RaspberryPI easy setup
 
-The most straight forward way to setup everything up is by using our [custom raspbian image](https://github.com/supergreenlab/SuperGreenTimelapse/releases/download/untagged-0052bb53f16d5891322f/image_2019-03-29-SuperGreenLiveOS-full.zip).
+The most straight forward way to setup everything up is by using our [custom raspbian image](https://github.com/supergreenlab/SuperGreenLive/releases/download/1.0/image_2019-03-29-SuperGreenLiveOS-full.zip).
 
 We'd recommend using something like [Etcher](https://www.balena.io/etcher/) for that.
 
