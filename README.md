@@ -195,7 +195,7 @@ docker run -d -p 80:80 -p 443:443 -e 'DBX_TOKEN=[ Insert your dropbox token here
 
 And now navigating to `http://[ your hosting IP or domain ]/[ The name you chose ]` will show the latest pic.
 
-# One more thing:
+# One more thing
 
 Those are really live (in my office right now):
 
