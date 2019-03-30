@@ -20,6 +20,7 @@ Table of Contents
       * [Create timelapse](#create-timelapse)
    * [View live over http](#view-live-over-http)
    * [One more thing:](#one-more-thing)
+   * [Subscribe our youtube channel:)](#subscribe-our-youtube-channel)
 
 # SuperGreenTimelapse
 
@@ -29,8 +30,6 @@ Example:
 [![Example](assets/screenshot-live.png?raw=true "Example")](https://live.supergreenlab.com/)
 
 See live action: [https://live.supergreenlab.com/](https://live.supergreenlab.com/) (auto updates every 10 minutes)
-
-[![Youtube video:)](https://img.youtube.com/vi/0vjswZQ0rk4/0.jpg)](https://www.youtube.com/watch?v=0vjswZQ0rk4)
 
 # Features
 
@@ -210,3 +209,7 @@ And the veg boxes (there's two stacked on top of each other):
 ![LiveVeg](https://timelapse.chronic-o-matic.com/SuperGreenOfficeVeg2#3 "LiveVeg2")
 
 Btw the these 3 boxes use only 72w dispatched on 6 led panels, 4 in bloom, 2 in veg, the whole setup is controlled by only one [controller](https://github.com/supergreenlab/SuperGreenDriver) :) Ventilations are independantly controlled too.
+
+# Subscribe our youtube channel:)
+
+[![Youtube video:)](https://img.youtube.com/vi/0vjswZQ0rk4/0.jpg)](https://www.youtube.com/watch?v=0vjswZQ0rk4)
