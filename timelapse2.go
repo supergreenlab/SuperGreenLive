@@ -44,7 +44,9 @@ var (
 	graphcontroller string
 	graphbox        int
 	uploadpath      string
-	rotate          bool
+	rotate          float64
+	size            string
+	input           string
 )
 
 func init() {
@@ -53,7 +55,9 @@ func init() {
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
 	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
-	flag.BoolVar(&rotate, "r", false, "")
+	flag.Float64Var(&rotate, "r", 0, "Image rotation in degrees")
+	flag.StringVar(&size, "p", "1920x1024", "Camera resolution")
+	flag.StringVar(&input, "i", "/dev/video0", "Input device")
 
 	flag.Parse()
 
@@ -80,13 +84,8 @@ func MustGetenv(name string) string {
 }
 
 func takePic() (string, error) {
-	name := "cam.jpg"
-	if rotate {
-		cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
-		err := cmd.Run()
-		return name, err
-	}
-	cmd := exec.Command("/usr/bin/raspistill", "-q", "50", "-o", name)
+	name := "cam.jpeg"
+	cmd := exec.Command("/usr/bin/streamer", "-o", name, "-c", input, "-s", size)
 	err := cmd.Run()
 	return name, err
 }
@@ -276,7 +275,7 @@ func main() {
 	logrus.Info("Taking picture..")
 	cam, err := takePic()
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	logrus.Info("Uploading raw file")
@@ -284,6 +283,11 @@ func main() {
 	uploadPic(uploadname+"_raw", cam, remote)
 
 	mw.ReadImage(cam)
+	if rotate != 0 {
+		pixel := imagick.NewPixelWand()
+		pixel.SetColor("transparent")
+		mw.RotateImage(pixel, rotate)
+	}
 
 	addText(mw, boxname, "#3BB30B", 120, 5, 25, 120)
 	addText(mw, strain, "#FF4B4B", 80, 3, 25, 220)
