@@ -44,9 +44,7 @@ var (
 	graphcontroller string
 	graphbox        int
 	uploadpath      string
-	rotate          float64
-	size            string
-	input           string
+	rotate          bool
 )
 
 func init() {
@@ -55,9 +53,7 @@ func init() {
 	flag.StringVar(&strain, "s", "Bagseed", "Strain name")
 	flag.StringVar(&graphcontroller, "c", "", "Graph's controller id")
 	flag.IntVar(&graphbox, "b", 0, "Graph's controller box id")
-	flag.Float64Var(&rotate, "r", 0, "Image rotation in degrees")
-	flag.StringVar(&size, "p", "1920x1024", "Camera resolution")
-	flag.StringVar(&input, "i", "/dev/video0", "Input device")
+	flag.BoolVar(&rotate, "r", false, "")
 
 	flag.Parse()
 
@@ -84,8 +80,13 @@ func MustGetenv(name string) string {
 }
 
 func takePic() (string, error) {
-	name := "cam.jpeg"
-	cmd := exec.Command("/usr/bin/streamer", "-o", name, "-c", input, "-s", size)
+	name := "cam.jpg"
+	if rotate {
+		cmd := exec.Command("/usr/bin/raspistill", "-vf", "-hf", "-q", "50", "-o", name)
+		err := cmd.Run()
+		return name, err
+	}
+	cmd := exec.Command("/usr/bin/raspistill", "-q", "50", "-o", name)
 	err := cmd.Run()
 	return name, err
 }
@@ -125,8 +126,7 @@ func addPic(mw *imagick.MagickWand, file string, x, y float64) {
 type MetricValue [][]float64
 
 type Metrics struct {
-	Humi MetricValue
-	Temp MetricValue
+	Metrics MetricValue
 }
 
 func (mv MetricValue) minMax() (float64, float64) {
@@ -148,10 +148,10 @@ func (mv MetricValue) current() float64 {
 	return mv[len(mv)-1][1]
 }
 
-func loadGraphValue(controller string, box int) Metrics {
+func loadGraphValue(controller, metric string) Metrics {
 	m := Metrics{}
 
-	url := fmt.Sprintf("http://metrics.supergreenlab.com/?controller=%s&box=%d", controller, box)
+	url := fmt.Sprintf("http://metrics.supergreenlab.com/?cid=%s&q=%s&t=24&n=50", controller, metric)
 	r, err := http.Get(url)
 	if err != nil {
 		return m
@@ -275,7 +275,7 @@ func main() {
 	logrus.Info("Taking picture..")
 	cam, err := takePic()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	logrus.Info("Uploading raw file")
@@ -283,26 +283,22 @@ func main() {
 	uploadPic(uploadname+"_raw", cam, remote)
 
 	mw.ReadImage(cam)
-	if rotate != 0 {
-		pixel := imagick.NewPixelWand()
-		pixel.SetColor("transparent")
-		mw.RotateImage(pixel, rotate)
-	}
 
 	addText(mw, boxname, "#3BB30B", 120, 5, 25, 120)
 	addText(mw, strain, "#FF4B4B", 80, 3, 25, 220)
 
 	if graphcontroller != "" {
-		m := loadGraphValue(graphcontroller, graphbox)
+		t := loadGraphValue(graphcontroller, fmt.Sprintf("BOX_%d_TEMP", graphbox))
+		h := loadGraphValue(graphcontroller, fmt.Sprintf("BOX_%d_HUMI", graphbox))
 		var (
 			x = float64(25)
 			y = float64(mw.GetImageHeight() - 25)
 		)
-		addGraph(mw, x, y, 350, 200, 16, 40, m.Temp, "#3BB30B")
-		addText(mw, fmt.Sprintf("%d°", int(m.Temp.current())), "#3BB30B", 150, 7, x+65, y-110)
+		addGraph(mw, x, y, 350, 200, 16, 40, t.Metrics, "#3BB30B")
+		addText(mw, fmt.Sprintf("%d°", int(t.Metrics.current())), "#3BB30B", 150, 7, x+65, y-110)
 
-		addGraph(mw, x+365, y, 400, 200, 20, 80, m.Humi, "#0B81B3")
-		addText(mw, fmt.Sprintf("%d%%", int(m.Humi.current())), "#0B81B3", 150, 7, x+390, y-110)
+		addGraph(mw, x+365, y, 400, 200, 20, 80, h.Metrics, "#0B81B3")
+		addText(mw, fmt.Sprintf("%d%%", int(h.Metrics.current())), "#0B81B3", 150, 7, x+390, y-110)
 	}
 
 	t := time.Now()
