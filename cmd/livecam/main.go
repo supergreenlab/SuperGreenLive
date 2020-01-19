@@ -19,50 +19,30 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
 
 var dbx files.Client
 
+var (
+	dbxtoken = pflag.String("dbxtoken", "", "Dropbox token")
+)
+
 func init() {
-	token := os.Getenv("DBX_TOKEN")
-	if token == "" {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Enter dropbox token: ")
-		token, _ = reader.ReadString('\n')
-		token = token[:len(token)-1]
-	}
-	config := dropbox.Config{
-		Token: token,
-	}
-	dbx = files.New(config)
+	viper.SetDefault("DBXToken", "")
 }
 
-func fu(e error) {
-	if e != nil {
-		logrus.Fatal(e)
-	}
-}
-
-func MustGetenv(name string) string {
-	v := os.Getenv(name)
-	if v == "" {
-		logrus.Fatalf("missing env %s", name)
-	}
-	return v
-}
-
-func GetFileReader(name string) (io.ReadCloser, error) {
+func getFileReader(name string) (io.ReadCloser, error) {
 	dbxFile := fmt.Sprintf("/%s/latest.jpg", name)
 
 	da := files.NewDownloadArg(dbxFile)
@@ -76,7 +56,7 @@ func GetFileReader(name string) (io.ReadCloser, error) {
 func serve(c *gin.Context) {
 	name := c.Param("name")
 
-	content, err := GetFileReader(name)
+	content, err := getFileReader(name)
 	if err != nil {
 		logrus.Warning(err)
 		c.Status(http.StatusNotFound)
@@ -91,19 +71,28 @@ func serve(c *gin.Context) {
 }
 
 func main() {
+	viper.SetConfigName("livecam")
+	viper.AddConfigPath("/etc/livecam")
+	viper.AddConfigPath(".")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %s", err))
+	}
+
+	viper.SetEnvPrefix("LIVECAM")
+	viper.AutomaticEnv()
+
+	pflag.Parse()
+	viper.BindPFlags(pflag.CommandLine)
+
+	token := viper.GetString("DBXToken")
+	config := dropbox.Config{
+		Token: token,
+	}
+	dbx = files.New(config)
+
 	r := gin.Default()
 	r.GET("/:name", serve)
-
-	certFile := "certs/supergreenlive.com.crt"
-	keyFile := "certs/supergreenlive.com.key"
-	if _, err := os.Stat(certFile); err == nil {
-		if _, err := os.Stat(keyFile); err == nil {
-			go r.RunTLS(":443", certFile, keyFile)
-		}
-	}
-	if len(os.Args) == 2 {
-		r.Run(fmt.Sprintf(":%s", os.Args[1]))
-	} else {
-		r.Run(":8080")
-	}
+	r.Run(":3000")
 }
