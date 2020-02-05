@@ -88,7 +88,7 @@ The directory you'll see contains a bunch of files of great interests:
 
 Edit the wpa_supplicant.conf file, you'll have to enter your wifi credentials there.
 
-Copy/paste this (don't forget to replace the values between []):
+Copy/paste this (don't forget to replace the values SSID and PASSPHRASE between ""):
 
 ```
 
@@ -96,8 +96,8 @@ ctrl_interface=/run/wpa_supplicant
 update_config=1                                                                 
                                                                                             
 network={                                   
-        ssid="[ SSID ]"
-        psk="[ PASSPHRASE ]"
+        ssid="SSID"
+        psk="PASSPHRASE"
 }
 
 ```
