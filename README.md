@@ -65,7 +65,7 @@ Now scroll to the `Generated access token` section, and click the `Generate` but
 
 ### RaspberryPI easy setup
 
-The most straight forward way to setup everything up is by using our [custom raspbian image](https://github.com/supergreenlab/SuperGreenLive/releases/download/1.0/image_2019-04-15-SuperGreenLiveOS-full.zip).
+The most straight forward way to setup everything up is by using our [custom raspbian image](https://github.com/supergreenlab/SuperGreenLive/releases/download/1.0/image_2020-03-16-SuperGreenLiveOS-full.zip).
 
 We'd recommend using something like [Etcher](https://www.balena.io/etcher/) for that.
 
