@@ -2,6 +2,3 @@ certs
 .DS_Store
 config/livecam.toml
 bin/livecam
-timelapse
-download
-upload
