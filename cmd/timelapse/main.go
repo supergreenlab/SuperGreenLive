@@ -151,7 +151,7 @@ func (mv MetricValue) current() float64 {
 func loadGraphValue(controller, metric string) Metrics {
 	m := Metrics{}
 
-	url := fmt.Sprintf("https://api2.supergreenlab.com/?cid=%s&q=%s&t=24&n=50", controller, metric)
+	url := fmt.Sprintf("https://api2.supergreenlab.com/metrics?cid=%s&q=%s&t=24&n=50", controller, metric)
 	r, err := http.Get(url)
 	if err != nil {
 		return m
