@@ -63,12 +63,11 @@ func MustGetenv(name string) string {
 }
 
 func download(dbx files.Client, dbxFile string) error {
-	if _, err := os.Stat(dbxFile[1:]); os.IsExist(err) {
-		logrus.Info("Already exists: %s", dbxFile)
+	if _, err := os.Stat("./" + dbxFile[1:]); err == nil {
+		logrus.Infof("Already exists: %s", dbxFile)
 		return nil
 	}
 
-	logrus.Info(dbxFile)
 	da := files.NewDownloadArg(dbxFile)
 
 	_, c, err := dbx.Download(da)
